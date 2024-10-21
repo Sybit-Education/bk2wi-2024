@@ -7,15 +7,30 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BButton: typeof import('bootstrap-vue-next/components/BButton')['BButton']
+    BCollapse: typeof import('bootstrap-vue-next/components/BCollapse')['BCollapse']
+    BDropdownItem: typeof import('bootstrap-vue-next/components/BDropdown')['BDropdownItem']
+    BFormInput: typeof import('bootstrap-vue-next/components/BFormInput')['BFormInput']
+    BNavbar: typeof import('bootstrap-vue-next/components/BNavbar')['BNavbar']
+    BNavbarBrand: typeof import('bootstrap-vue-next/components/BNavbar')['BNavbarBrand']
+    BNavbarNav: typeof import('bootstrap-vue-next/components/BNavbar')['BNavbarNav']
+    BNavbarToggle: typeof import('bootstrap-vue-next/components/BNavbar')['BNavbarToggle']
+    BNavForm: typeof import('bootstrap-vue-next/components/BNav')['BNavForm']
+    BNavItem: typeof import('bootstrap-vue-next/components/BNav')['BNavItem']
+    BNavItemDropdown: typeof import('bootstrap-vue-next/components/BNav')['BNavItemDropdown']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']
     IconDocumentation: typeof import('./src/components/icons/IconDocumentation.vue')['default']
     IconEcosystem: typeof import('./src/components/icons/IconEcosystem.vue')['default']
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
+    NavigationBar: typeof import('./src/components/navigation/NavigationBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
+  }
+  export interface ComponentCustomProperties {
+    vBColorMode: typeof import('bootstrap-vue-next/directives/BColorMode')['vBColorMode']
   }
 }
