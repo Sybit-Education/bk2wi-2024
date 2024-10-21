@@ -13,6 +13,7 @@
     "format": "prettier --write src/"
   },
   "dependencies": {
+    "airtable": "^0.12.2",
     "bootstrap": "^5.3.3",
     "bootstrap-vue-next": "^0.25.6",
     "pinia": "^2.2.4",
