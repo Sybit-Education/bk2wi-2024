@@ -16,9 +16,18 @@ See [Vite Configuration Reference](https://vite.dev/config/).
 
 ## Project Setup
 
+Install required libraries like `boostrap-vue-next` etc.:
+
 ```sh
 npm install
 ```
+
+### Configure environment
+
+Copy file `.env.example` to `.env` and update content.
+
+⚠️ DO NOT COMMIT SENSITIVE API-KEY TO REPOSITORY!⚠️
+
 
 ### Compile and Hot-Reload for Development
 
