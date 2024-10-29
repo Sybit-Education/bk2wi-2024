@@ -1,6 +1,8 @@
 {
   "recommendations": [
+    "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode"
+    "vue.volar",
+    "christian-kohler.npm-intellisense"
   ]
 }
