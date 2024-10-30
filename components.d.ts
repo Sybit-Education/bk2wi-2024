@@ -8,6 +8,10 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     BButton: typeof import('bootstrap-vue-next/components/BButton')['BButton']
+    BCard: typeof import('bootstrap-vue-next/components/BCard')['BCard']
+    BCardGroup: typeof import('bootstrap-vue-next/components/BCard')['BCardGroup']
+    BCardText: typeof import('bootstrap-vue-next/components/BCard')['BCardText']
+    BCardTitle: typeof import('bootstrap-vue-next/components/BCard')['BCardTitle']
     BCollapse: typeof import('bootstrap-vue-next/components/BCollapse')['BCollapse']
     BDropdownItem: typeof import('bootstrap-vue-next/components/BDropdown')['BDropdownItem']
     BFormInput: typeof import('bootstrap-vue-next/components/BFormInput')['BFormInput']
@@ -28,6 +32,8 @@ declare module 'vue' {
     NavigationBar: typeof import('./src/components/navigation/NavigationBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    SportTypeCard: typeof import('./src/components/sport-type/SportTypeCard.vue')['default']
+    SportTypeList: typeof import('./src/components/sport-type/SportTypeList.vue')['default']
     TheWelcome: typeof import('./src/components/TheWelcome.vue')['default']
     WelcomeItem: typeof import('./src/components/WelcomeItem.vue')['default']
   }

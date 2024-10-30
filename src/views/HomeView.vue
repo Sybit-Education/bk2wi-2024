@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import TheWelcome from '../components/TheWelcome.vue'
+import SportTypeList from '@/components/sport-type/SportTypeList.vue';
+
 </script>
 
 <template>
   <main>
-    <TheWelcome />
+    <SportTypeList />
   </main>
 </template>
