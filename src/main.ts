@@ -1,7 +1,6 @@
-// main.js/ts
-import {createApp} from 'vue'
+import { createApp } from 'vue'
 import { createPinia } from 'pinia'
-import {createBootstrap} from 'bootstrap-vue-next'
+import { createBootstrap } from 'bootstrap-vue-next'
 
 import App from './App.vue'
 import router from './router'
