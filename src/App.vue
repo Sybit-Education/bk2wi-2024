@@ -22,7 +22,7 @@ export default defineComponent({
   <header>
     <NavigationBar />
   </header>
-  <main>
+  <main class="container">
     <RouterView />
   </main>
   <footer>
