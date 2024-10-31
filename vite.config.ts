@@ -8,7 +8,7 @@ import { BootstrapVueNextResolver } from 'bootstrap-vue-next'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/bk2wi-2024/',
+  base: '/',
   plugins: [
     vue(),
     vueDevTools(),

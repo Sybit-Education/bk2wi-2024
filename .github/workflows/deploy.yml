@@ -29,9 +29,3 @@ jobs:
         env:
           VITE_APP_AIRTABLE_API_KEY: ${{ secrets.VITE_APP_AIRTABLE_API_KEY }}
           VITE_APP_AIRTABLE_BASE: ${{ secrets.VITE_APP_AIRTABLE_BASE }}
-      - name: 🚀 Deploy to GitHub Pages
-        if: github.ref == 'refs/heads/main'
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./dist
