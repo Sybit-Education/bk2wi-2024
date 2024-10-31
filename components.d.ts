@@ -7,21 +7,16 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
-    BButton: typeof import('bootstrap-vue-next/components/BButton')['BButton']
     BCard: typeof import('bootstrap-vue-next/components/BCard')['BCard']
     BCardGroup: typeof import('bootstrap-vue-next/components/BCard')['BCardGroup']
     BCardText: typeof import('bootstrap-vue-next/components/BCard')['BCardText']
     BCardTitle: typeof import('bootstrap-vue-next/components/BCard')['BCardTitle']
     BCollapse: typeof import('bootstrap-vue-next/components/BCollapse')['BCollapse']
-    BDropdownItem: typeof import('bootstrap-vue-next/components/BDropdown')['BDropdownItem']
-    BFormInput: typeof import('bootstrap-vue-next/components/BFormInput')['BFormInput']
     BNavbar: typeof import('bootstrap-vue-next/components/BNavbar')['BNavbar']
     BNavbarBrand: typeof import('bootstrap-vue-next/components/BNavbar')['BNavbarBrand']
     BNavbarNav: typeof import('bootstrap-vue-next/components/BNavbar')['BNavbarNav']
     BNavbarToggle: typeof import('bootstrap-vue-next/components/BNavbar')['BNavbarToggle']
-    BNavForm: typeof import('bootstrap-vue-next/components/BNav')['BNavForm']
     BNavItem: typeof import('bootstrap-vue-next/components/BNav')['BNavItem']
-    BNavItemDropdown: typeof import('bootstrap-vue-next/components/BNav')['BNavItemDropdown']
     FooterBar: typeof import('./src/components/navigation/FooterBar.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
     IconCommunity: typeof import('./src/components/icons/IconCommunity.vue')['default']

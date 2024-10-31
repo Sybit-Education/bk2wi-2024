@@ -5,9 +5,6 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    env:
-      VITE_APP_AIRTABLE_API_KEY: ${{ secrets.VITE_APP_AIRTABLE_API_KEY }}
-      VITE_APP_AIRTABLE_BASE: ${{ secrets.VITE_APP_AIRTABLE_BASE }}
 
     steps:
       - name: 🛎️ Checkout code
@@ -23,8 +20,14 @@ jobs:
         run: npm ci
 
       - name: 🏗️ Build
-        run: npm run build
-
+        run: |
+          touch .env
+          echo VITE_APP_AIRTABLE_API_KEY=$VITE_APP_AIRTABLE_API_KEY >> .env
+          echo VITE_APP_AIRTABLE_BASE=$secrets.VITE_APP_AIRTABLE_BASE >> .env
+          npm run build
+        env:
+          VITE_APP_AIRTABLE_API_KEY: ${{ secrets.VITE_APP_AIRTABLE_API_KEY }}
+          VITE_APP_AIRTABLE_BASE: ${{ secrets.VITE_APP_AIRTABLE_BASE }}
       - name: 🚀 Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v4
