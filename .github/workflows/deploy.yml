@@ -23,7 +23,8 @@ jobs:
         run: |
           touch .env
           echo VITE_APP_AIRTABLE_API_KEY=$VITE_APP_AIRTABLE_API_KEY >> .env
-          echo VITE_APP_AIRTABLE_BASE=$secrets.VITE_APP_AIRTABLE_BASE >> .env
+          echo VITE_APP_AIRTABLE_BASE=$VITE_APP_AIRTABLE_BASE >> .env
+          cat .env
           npm run build
         env:
           VITE_APP_AIRTABLE_API_KEY: ${{ secrets.VITE_APP_AIRTABLE_API_KEY }}
