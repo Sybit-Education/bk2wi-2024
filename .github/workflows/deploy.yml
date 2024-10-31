@@ -6,7 +6,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      NODE_ENV: production
       VITE_APP_AIRTABLE_API_KEY: ${{ secrets.VITE_APP_AIRTABLE_API_KEY }}
       VITE_APP_AIRTABLE_BASE: ${{ secrets.VITE_APP_AIRTABLE_BASE }}
 
@@ -21,7 +20,7 @@ jobs:
           cache: 'npm'
 
       - name: 📥 Install dependencies
-        run: npm install
+        run: npm ci
 
       - name: 🏗️ Build
         run: npm run build
