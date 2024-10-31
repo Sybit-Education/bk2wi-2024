@@ -5,6 +5,10 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      NODE_ENV: production
+      VITE_APP_AIRTABLE_API_KEY: ${{ secrets.VITE_APP_AIRTABLE_API_KEY }}
+      VITE_APP_AIRTABLE_BASE: ${{ secrets.VITE_APP_AIRTABLE_BASE }}
 
     steps:
       - name: 🛎️ Checkout code
@@ -20,10 +24,6 @@ jobs:
 
       - name: 🏗️ Build
         run: npm run build
-        env:
-          NODE_ENV: production
-          VITE_APP_AIRTABLE_API_KEY: ${{ secrets.VITE_APP_AIRTABLE_API_KEY }}
-          VITE_APP_AIRTABLE_BASE: ${{ secrets.VITE_APP_AIRTABLE_BASE }}
 
       - name: 🚀 Deploy to GitHub Pages
         if: github.ref == 'refs/heads/main'
