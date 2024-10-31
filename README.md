@@ -1,9 +1,12 @@
 # Sportsy
 
+[![CI](https://github.com/Sybit-Education/bk2wi-2024/actions/workflows/deploy.yml/badge.svg)](https://github.com/Sybit-Education/bk2wi-2024/actions/workflows/deploy.yml)
+
+
 Sportsy is a project of the school-class BK2WI 2024/25 at BSZ Radolfzell.
 The whole class is structured as start-up company having project management, controlling, marketing, design and software development.
 
-Sportsy will be a platform to find sparring partners for sport training.
+Sportsy will be a platform to find sparring partners for sport training: https://sportsy.netlify.app/
 
 ## Development
 
