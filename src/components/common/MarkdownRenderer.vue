@@ -35,4 +35,7 @@ div :deep(h2) { font-size: 1.3rem; }
 div :deep(h3) { font-size: 1.2rem; }
 div :deep(p) { margin-bottom: 0.5rem; }
 div :deep(ul), div :deep(ol) { margin-bottom: 0.5rem; }
+div :deep(strong), div :deep(b) { 
+  font-weight: bold; 
+}
 </style>
