@@ -20,11 +20,13 @@ import { mapState } from 'pinia'
 import { defineComponent } from 'vue'
 import type SportType from '@/models/SportType'
 import { BSpinner } from 'bootstrap-vue-next'
+import SportTypeCard from './SportTypeCard.vue'
 
 export default defineComponent({
   name: 'ProjectListView',
   components: {
     BSpinner,
+    SportTypeCard,
   },
   computed: {
     ...mapState(useSportTypeStore, {
