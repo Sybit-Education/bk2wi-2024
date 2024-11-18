@@ -3,13 +3,13 @@
 <template>
   <div class="footer-bar">
     <div class="footer-content">
-      <div class="footer-links">
-        <router-link to="/impressum" class="footer-link">Impressum</router-link>
-        <router-link to="/datenschutz" class="footer-link">Datenschutz</router-link>
-      </div>
       <div class="footer-copyright">
         &copy; 2024 - BK2WI 2024 - BSZ Radolfzell in Kooperation mit
         <a href="https://sybit.education">Sybit GmbH</a>.
+      </div>
+      <div class="footer-links">
+        <router-link to="/impressum" class="footer-link">Impressum</router-link>
+        <router-link to="/datenschutz" class="footer-link">Datenschutz</router-link>
       </div>
     </div>
   </div>
