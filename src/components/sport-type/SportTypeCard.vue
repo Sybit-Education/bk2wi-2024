@@ -15,6 +15,9 @@ import MarkdownRenderer from '@/components/common/MarkdownRenderer.vue';
 
 
 export default defineComponent({
+  components: {
+    MarkdownRenderer
+  },
   props: {
     sportType: {
       type: Object as () => SportType,
