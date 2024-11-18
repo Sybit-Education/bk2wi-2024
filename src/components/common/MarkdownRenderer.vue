@@ -6,8 +6,6 @@
 import { defineComponent, computed } from 'vue'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
-import type { MarkedOptions } from 'marked'
-import type { Config } from 'dompurify'
 
 export default defineComponent({
   name: 'MarkdownRenderer',
@@ -38,7 +36,7 @@ div :deep(h2) { font-size: 1.3rem; }
 div :deep(h3) { font-size: 1.2rem; }
 div :deep(p) { margin-bottom: 0.5rem; }
 div :deep(ul), div :deep(ol) { margin-bottom: 0.5rem; }
-div :deep(strong), div :deep(b) { 
-  font-weight: bold; 
+div :deep(strong), div :deep(b) {
+  font-weight: bold;
 }
 </style>
