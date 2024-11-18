@@ -19,7 +19,6 @@ import { useLoadingStore } from '../../stores/loading'
 import { mapState } from 'pinia'
 import { defineComponent } from 'vue'
 import type SportType from '@/models/SportType'
-import SportTypeCard from './SportTypeCard.vue'
 import { BSpinner } from 'bootstrap-vue-next'
 
 export default defineComponent({
