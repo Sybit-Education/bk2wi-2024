@@ -9,6 +9,7 @@
       <!-- Right aligned nav items -->
       <BNavbarNav class="ms-auto mb-2 mb-lg-0">
         <BNavItem href="/about" >Über uns</BNavItem>
+        <BNavItem href="/account/create">Create Account</BNavItem>
       </BNavbarNav>
     </BCollapse>
   </BNavbar>
