@@ -6,6 +6,8 @@
 import { defineComponent, computed } from 'vue'
 import { marked } from 'marked'
 import DOMPurify from 'dompurify'
+import type { MarkedOptions } from 'marked'
+import type { Config } from 'dompurify'
 
 export default defineComponent({
   name: 'MarkdownRenderer',
