@@ -1,5 +1,6 @@
 <template>
   <div v-if="sportType" class="sport-type-detail container mt-4">
+    <b-breadcrumb :items="breadcrumbItems" class="mb-3"></b-breadcrumb>
     <div class="row">
       <div v-if="image" class="col-md-6">
         <img :src="image" :alt="sportType.name" class="img-fluid rounded mb-3">
@@ -29,9 +30,25 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute()
+    const router = useRouter()
     const sportTypeStore = useSportTypeStore()
     const sportType = ref<SportType | null>(null)
     const image = ref('')
+
+    const breadcrumbItems = [
+      {
+        text: 'Home',
+        to: { name: 'home' }
+      },
+      {
+        text: 'Sport Types',
+        to: { name: 'home' }
+      },
+      {
+        text: '',
+        active: true
+      }
+    ]
 
     onMounted(async () => {
       const sportTypeId = route.params.id as string
@@ -40,12 +57,16 @@ export default defineComponent({
       if (sportType.value) {
         const fetchedImage = sportTypeStore.imageById(sportType.value.id)
         image.value = fetchedImage || '' // Use empty string if no image
+        
+        // Update the last breadcrumb item with the sport type name
+        breadcrumbItems[2].text = sportType.value.name
       }
     })
 
     return {
       sportType,
-      image
+      image,
+      breadcrumbItems
     }
   }
 })
