@@ -1,10 +1,10 @@
 <template>
   <div v-if="sportType" class="sport-type-detail container mt-4">
     <div class="row">
-      <div class="col-md-6">
+      <div v-if="image" class="col-md-6">
         <img :src="image" :alt="sportType.name" class="img-fluid rounded mb-3">
       </div>
-      <div class="col-md-6">
+      <div :class="image ? 'col-md-6' : 'col-12'">
         <h1>{{ sportType.name }}</h1>
         <MarkdownRenderer :markdown="sportType.notes" />
       </div>
@@ -38,7 +38,8 @@ export default defineComponent({
       sportType.value = sportTypeStore.sportTypeList.find(st => st.id === sportTypeId) || null
       
       if (sportType.value) {
-        image.value = sportTypeStore.imageById(sportType.value.id) as string
+        const fetchedImage = sportTypeStore.imageById(sportType.value.id)
+        image.value = fetchedImage || '' // Use empty string if no image
       }
     })
 
