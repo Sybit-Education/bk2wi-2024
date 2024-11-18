@@ -1,7 +1,9 @@
 <template>
   <b-card  :img-src="image" img-top>
     <b-card-title>{{ sportType.name }}</b-card-title>
-    <b-card-text>{{ sportType.notes }}</b-card-text>
+    <b-card-text>
+      <MarkdownRenderer :markdown="sportType.notes" />
+    </b-card-text>
   </b-card>
 </template>
 <script lang="ts">
@@ -9,6 +11,7 @@ import { defineComponent } from 'vue';
 import { mapState } from "pinia";
 import type SportType from '@/models/SportType';
 import { useSportTypeStore } from '@/stores/sportType';
+import MarkdownRenderer from '@/components/common/MarkdownRenderer.vue';
 
 
 export default defineComponent({
