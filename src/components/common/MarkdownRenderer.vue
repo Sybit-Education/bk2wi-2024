@@ -20,7 +20,10 @@ export default defineComponent({
   setup(props) {
     const renderedMarkdown = computed(() => {
       if (!props.markdown) return ''
-      const htmlContent = marked(props.markdown)
+      const htmlContent = marked.parse(props.markdown, {
+        gfm: true,  // GitHub Flavored Markdown
+        breaks: true  // Convert line breaks to <br>
+      })
       return DOMPurify.sanitize(htmlContent)
     })
 
