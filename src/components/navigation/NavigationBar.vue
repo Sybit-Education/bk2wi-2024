@@ -8,8 +8,10 @@
       </BNavbarNav>
       <!-- Right aligned nav items -->
       <BNavbarNav class="ms-auto mb-2 mb-lg-0">
-        <BNavItem href="/about" >Über uns</BNavItem>
+        <BNavItem href="/about">Über uns</BNavItem>
         <BNavItem href="/account/create">Create Account</BNavItem>
+        <BNavItem href="/impressum">Impressum</BNavItem>
+        <BNavItem href="/datenschutz">Datenschutz</BNavItem>
       </BNavbarNav>
     </BCollapse>
   </BNavbar>
