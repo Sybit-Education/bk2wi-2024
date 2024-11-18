@@ -4,7 +4,7 @@ import AccountCreateForm from '@/components/account/AccountCreateForm.vue'
 
 <template>
   <div class="account-create container mt-4">
-    <h1>Create Your Account</h1>
+    <h1>Account anlegen</h1>
     <AccountCreateForm />
   </div>
 </template>
