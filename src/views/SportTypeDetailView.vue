@@ -72,7 +72,6 @@ export default defineComponent({
       sportType,
       image,
       breadcrumbItems,
-      isLoading,
       showLoadingSpinner: computed(() => loadingStore.showLoadingSpinner)
     }
   }
