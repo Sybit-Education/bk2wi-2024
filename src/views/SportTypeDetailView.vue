@@ -30,7 +30,6 @@ export default defineComponent({
   },
   setup() {
     const route = useRoute()
-    const router = useRouter()
     const sportTypeStore = useSportTypeStore()
     const sportType = ref<SportType | null>(null)
     const image = ref('')
@@ -53,11 +52,11 @@ export default defineComponent({
     onMounted(async () => {
       const sportTypeId = route.params.id as string
       sportType.value = sportTypeStore.sportTypeList.find(st => st.id === sportTypeId) || null
-      
+
       if (sportType.value) {
         const fetchedImage = sportTypeStore.imageById(sportType.value.id)
         image.value = fetchedImage || '' // Use empty string if no image
-        
+
         // Update the last breadcrumb item with the sport type name
         breadcrumbItems[2].text = sportType.value.name
       }
