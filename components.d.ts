@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    AccountCreateForm: typeof import('./src/components/account/AccountCreateForm.vue')['default']
     BBreadcrumb: typeof import('bootstrap-vue-next/components/BBreadcrumb')['BBreadcrumb']
     BCard: typeof import('bootstrap-vue-next/components/BCard')['BCard']
     BCardGroup: typeof import('bootstrap-vue-next/components/BCard')['BCardGroup']
