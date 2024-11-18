@@ -1,0 +1,58 @@
+<template>
+  <div v-if="sportType" class="sport-type-detail container mt-4">
+    <div class="row">
+      <div class="col-md-6">
+        <img :src="image" :alt="sportType.name" class="img-fluid rounded mb-3">
+      </div>
+      <div class="col-md-6">
+        <h1>{{ sportType.name }}</h1>
+        <MarkdownRenderer :markdown="sportType.notes" />
+      </div>
+    </div>
+  </div>
+  <div v-else class="text-center my-5">
+    <b-spinner variant="primary" label="Loading..."></b-spinner>
+  </div>
+</template>
+
+<script lang="ts">
+import { defineComponent, ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
+import { useSportTypeStore } from '@/stores/sportType'
+import MarkdownRenderer from '@/components/common/MarkdownRenderer.vue'
+import type SportType from '@/models/SportType'
+
+export default defineComponent({
+  name: 'SportTypeDetailView',
+  components: {
+    MarkdownRenderer
+  },
+  setup() {
+    const route = useRoute()
+    const sportTypeStore = useSportTypeStore()
+    const sportType = ref<SportType | null>(null)
+    const image = ref('')
+
+    onMounted(async () => {
+      const sportTypeId = route.params.id as string
+      sportType.value = sportTypeStore.sportTypeList.find(st => st.id === sportTypeId) || null
+      
+      if (sportType.value) {
+        image.value = sportTypeStore.imageById(sportType.value.id) as string
+      }
+    })
+
+    return {
+      sportType,
+      image
+    }
+  }
+})
+</script>
+
+<style scoped>
+.sport-type-detail img {
+  max-height: 400px;
+  object-fit: cover;
+}
+</style>
