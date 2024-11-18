@@ -23,6 +23,7 @@ import { useSportTypeStore } from '@/stores/sportType'
 import { useLoadingStore } from '@/stores/loading'
 import MarkdownRenderer from '@/components/common/MarkdownRenderer.vue'
 import type SportType from '@/models/SportType'
+import router from '@/router'
 
 export default defineComponent({
   name: 'SportTypeDetailView',
@@ -35,7 +36,6 @@ export default defineComponent({
     const loadingStore = useLoadingStore()
     const sportType = ref<SportType | null>(null)
     const image = ref('')
-    const isLoading = ref(true)
 
     const breadcrumbItems = [
       {
@@ -53,15 +53,6 @@ export default defineComponent({
     ]
 
     onMounted(async () => {
-      // Ensure loading is tracked
-      loadingStore.updateLoading(true)
-      
-      try {
-        // If sport types are not loaded, wait for them to load
-        if (sportTypeStore.sportTypeList.length === 0) {
-          await sportTypeStore.fetchSportTypes()
-        }
-
         const sportTypeId = route.params.id as string
         sportType.value = sportTypeStore.sportTypeList.find(st => st.id === sportTypeId) || null
 
@@ -71,12 +62,10 @@ export default defineComponent({
 
           // Update the last breadcrumb item with the sport type name
           breadcrumbItems[2].text = sportType.value.name
+        } else {
+          // Redirect to home if sport type not found
+          await router.push({ name: 'home' })
         }
-      } finally {
-        // Always stop loading, whether successful or not
-        loadingStore.updateLoading(false)
-        isLoading.value = false
-      }
     })
 
     return {

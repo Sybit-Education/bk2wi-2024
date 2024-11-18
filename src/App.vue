@@ -3,8 +3,8 @@ import { defineComponent } from 'vue'
 import { useSportTypeStore } from './stores/sportType'
 
 export default defineComponent({
-  created() {
-    useSportTypeStore().load()
+  async created() {
+    await useSportTypeStore().load()
   },
 })
 </script>

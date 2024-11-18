@@ -7,6 +7,7 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    BBreadcrumb: typeof import('bootstrap-vue-next/components/BBreadcrumb')['BBreadcrumb']
     BCard: typeof import('bootstrap-vue-next/components/BCard')['BCard']
     BCardGroup: typeof import('bootstrap-vue-next/components/BCard')['BCardGroup']
     BCardText: typeof import('bootstrap-vue-next/components/BCard')['BCardText']
@@ -26,6 +27,7 @@ declare module 'vue' {
     IconSupport: typeof import('./src/components/icons/IconSupport.vue')['default']
     IconTooling: typeof import('./src/components/icons/IconTooling.vue')['default']
     MarkdownRenderer: typeof import('./src/components/common/MarkdownRenderer.vue')['default']
+    MotivationalBanner: typeof import('./src/components/common/MotivationalBanner.vue')['default']
     NavigationBar: typeof import('./src/components/navigation/NavigationBar.vue')['default']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']

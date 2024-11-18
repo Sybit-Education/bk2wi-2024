@@ -1,6 +1,6 @@
 <template>
   <BNavbar toggleable="lg" variant="primary" v-b-color-mode="'dark'">
-    <BNavbarBrand href="#">Sportsy</BNavbarBrand>
+    <BNavbarBrand href="/">Sportsy</BNavbarBrand>
     <BNavbarToggle target="nav-collapse" />
     <BCollapse id="nav-collapse" is-nav>
       <BNavbarNav>
