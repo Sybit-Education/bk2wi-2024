@@ -1,5 +1,5 @@
 <template>
-  <div v-if="sportType" class="sport-type-detail container mt-4">
+  <div v-if="!showLoadingSpinner && sportType" class="sport-type-detail container mt-4">
     <b-breadcrumb :items="breadcrumbItems" class="mb-3"></b-breadcrumb>
     <div class="row">
       <div v-if="image" class="col-md-6">
@@ -17,9 +17,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted } from 'vue'
+import { defineComponent, ref, onMounted, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { useSportTypeStore } from '@/stores/sportType'
+import { useLoadingStore } from '@/stores/loading'
 import MarkdownRenderer from '@/components/common/MarkdownRenderer.vue'
 import type SportType from '@/models/SportType'
 
@@ -31,8 +32,10 @@ export default defineComponent({
   setup() {
     const route = useRoute()
     const sportTypeStore = useSportTypeStore()
+    const loadingStore = useLoadingStore()
     const sportType = ref<SportType | null>(null)
     const image = ref('')
+    const isLoading = ref(true)
 
     const breadcrumbItems = [
       {
@@ -50,22 +53,38 @@ export default defineComponent({
     ]
 
     onMounted(async () => {
-      const sportTypeId = route.params.id as string
-      sportType.value = sportTypeStore.sportTypeList.find(st => st.id === sportTypeId) || null
+      // Ensure loading is tracked
+      loadingStore.updateLoading(true)
+      
+      try {
+        // If sport types are not loaded, wait for them to load
+        if (sportTypeStore.sportTypeList.length === 0) {
+          await sportTypeStore.fetchSportTypes()
+        }
 
-      if (sportType.value) {
-        const fetchedImage = sportTypeStore.imageById(sportType.value.id)
-        image.value = fetchedImage || '' // Use empty string if no image
+        const sportTypeId = route.params.id as string
+        sportType.value = sportTypeStore.sportTypeList.find(st => st.id === sportTypeId) || null
 
-        // Update the last breadcrumb item with the sport type name
-        breadcrumbItems[2].text = sportType.value.name
+        if (sportType.value) {
+          const fetchedImage = sportTypeStore.imageById(sportType.value.id)
+          image.value = fetchedImage || '' // Use empty string if no image
+
+          // Update the last breadcrumb item with the sport type name
+          breadcrumbItems[2].text = sportType.value.name
+        }
+      } finally {
+        // Always stop loading, whether successful or not
+        loadingStore.updateLoading(false)
+        isLoading.value = false
       }
     })
 
     return {
       sportType,
       image,
-      breadcrumbItems
+      breadcrumbItems,
+      isLoading,
+      showLoadingSpinner: computed(() => loadingStore.showLoadingSpinner)
     }
   }
 })
