@@ -16,16 +16,20 @@
   },
   "dependencies": {
     "airtable": "^0.12.2",
+    "bcrypt": "^5.1.1",
     "bootstrap": "^5.3.3",
     "bootstrap-vue-next": "^0.25.6",
     "dompurify": "^3.2.0",
     "marked": "^15.0.1",
-    "pinia": "^2.2.4",
+    "pinia": "^2.2.8",
     "vue": "^3.5.12",
     "vue-router": "^4.4.5"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
     "@tsconfig/node20": "^20.1.4",
+    "@types/bcrypt": "^5.0.2",
     "@types/dompurify": "^3.0.5",
     "@types/marked": "^5.0.2",
     "@types/node": "^20.16.11",
