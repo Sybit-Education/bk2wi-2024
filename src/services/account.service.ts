@@ -1,8 +1,10 @@
 import type Account from '@/models/Account'
 import airtableBase from './airtable.service'
+import bcrypt from 'bcrypt'
 
 const TABLE_NAME = 'Account'
 const ACTIVE_VIEW = 'Grid view'
+const SALT_ROUNDS = 10  // Number of salt rounds for bcrypt
 
 class AccountService {
   /**
@@ -49,39 +51,47 @@ class AccountService {
    */
   async createAccount(account: Account): Promise<Account | null> {
     return new Promise((resolve, reject) => {
-      airtableBase(TABLE_NAME).create(
-        [
-          {
-            fields: {
-              'Name': account.name,
-              'E-Mail': account.email,
-              'Password': account.password,
-              // Add other fields as needed
-            }
-          }
-        ],
-        (err, records) => {
-          if (err) {
-            console.error(err)
-            reject(err)
-            return
-          }
-
-          if (records && records.length > 0) {
-            const createdRecord = records[0]
-            const createdAccount: Account = {
-              id: createdRecord.id,
-              name: createdRecord.get('Name') as string,
-              email: createdRecord.get('E-Mail') as string,
-              password: createdRecord.get('Password') as string,
-              // Add other fields as needed
-            }
-            resolve(createdAccount)
-          } else {
-            resolve(null)
-          }
+      // Hash the password before storing
+      bcrypt.hash(account.password, SALT_ROUNDS, (err, hashedPassword) => {
+        if (err) {
+          reject(err)
+          return
         }
-      )
+
+        airtableBase(TABLE_NAME).create(
+          [
+            {
+              fields: {
+                'Name': account.name,
+                'E-Mail': account.email,
+                'Password': hashedPassword,  // Store hashed password
+                // Add other fields as needed
+              }
+            }
+          ],
+          (err, records) => {
+            if (err) {
+              console.error(err)
+              reject(err)
+              return
+            }
+
+            if (records && records.length > 0) {
+              const createdRecord = records[0]
+              const createdAccount: Account = {
+                id: createdRecord.id,
+                name: createdRecord.get('Name') as string,
+                email: createdRecord.get('E-Mail') as string,
+                password: '', // Do not return the hashed password
+                // Add other fields as needed
+              }
+              resolve(createdAccount)
+            } else {
+              resolve(null)
+            }
+          }
+        )
+      })
     })
   }
 
@@ -117,6 +127,49 @@ class AccountService {
               reject(err)
             } else {
               resolve(accounts.length > 0)
+            }
+          }
+        )
+    })
+  }
+
+  /**
+   * Verify user credentials
+   * @param email User's email
+   * @param password User's password
+   * @returns Promise resolving to boolean indicating successful login
+   */
+  async verifyCredentials(email: string, password: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      airtableBase(TABLE_NAME)
+        .select({
+          view: ACTIVE_VIEW,
+          filterByFormula: `{E-Mail} = "${email}"`
+        })
+        .eachPage(
+          (records, fetchNextPage) => {
+            if (records.length === 0) {
+              resolve(false)
+              return
+            }
+
+            const storedPassword = records[0].get('Password') as string
+            
+            // Compare provided password with stored hash
+            bcrypt.compare(password, storedPassword, (err, result) => {
+              if (err) {
+                reject(err)
+              } else {
+                resolve(result)
+              }
+            })
+
+            fetchNextPage()
+          },
+          (err) => {
+            if (err) {
+              console.error(err)
+              reject(err)
             }
           }
         )
