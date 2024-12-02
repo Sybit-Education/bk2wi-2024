@@ -22,10 +22,10 @@ export const useAccountStore = defineStore('account', {
     async load() {
       const loadingStore = useLoadingStore()
       loadingStore.updateLoading(true)
-      
+
       try {
         // Assuming accountService has a method to fetch accounts
-        const accounts = await accountService.fetchAccounts()
+        const accounts = await accountService.getList()
         this.accountList = accounts
       } catch (error) {
         console.error('Failed to load accounts', error)
@@ -36,7 +36,7 @@ export const useAccountStore = defineStore('account', {
     async createAccount(account: Account) {
       const loadingStore = useLoadingStore()
       loadingStore.updateLoading(true)
-      
+
       try {
         const success = await accountService.createAccount(account)
         if (success) {
