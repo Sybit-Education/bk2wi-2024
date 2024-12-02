@@ -1,14 +1,14 @@
 import { defineStore } from 'pinia'
 import { ref, type Ref } from 'vue'
-import type { UserAccount } from '@/models/UserAccount'
+import type { Account } from '@/models/Account'
 import { AccountService } from '@/services/account.service'
 
 export const useAccountStore = defineStore('account', () => {
-  const accounts: Ref<UserAccount[]> = ref([])
+  const accounts: Ref<Account[]> = ref([])
   const accountService = new AccountService()
 
   // Create a new account
-  async function createAccount(account: UserAccount): Promise<boolean> {
+  async function createAccount(account: Account): Promise<boolean> {
     const success = await accountService.createAccount(account)
     if (success) {
       accounts.value.push(account)
@@ -17,12 +17,12 @@ export const useAccountStore = defineStore('account', () => {
   }
 
   // Get all accounts
-  function getAccounts(): UserAccount[] {
+  function getAccounts(): Account[] {
     return accounts.value
   }
 
   // Find account by some identifier (e.g., email or ID)
-  function findAccount(identifier: string): UserAccount | undefined {
+  function findAccount(identifier: string): Account | undefined {
     return accounts.value.find(
       account => account.email === identifier
     )
