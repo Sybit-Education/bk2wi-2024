@@ -1,20 +1,21 @@
-import type UserAccount from '@/models/Account'
+import type Account from '@/models/Account'
 import airtableBase from './airtable.service'
 
 const TABLE_NAME = 'Account'
+const ACTIVE_VIEW = 'Grid view'
 
 class AccountService {
   /**
    * Get list of accounts from Airtable
    * @returns Promise resolving to array of accounts
    */
-  async getList(): Promise<UserAccount[]> {
+  async getList(): Promise<Account[]> {
     return new Promise((resolve, reject) => {
-      const accounts: UserAccount[] = []
+      const accounts: Account[] = []
 
       airtableBase(TABLE_NAME)
         .select({
-          view: 'Grid view'
+          view: ACTIVE_VIEW
         })
         .eachPage(
           (records, fetchNextPage) => {
@@ -46,7 +47,7 @@ class AccountService {
    * @param account Account details to create
    * @returns Promise resolving to created account
    */
-  async createAccount(account: UserAccount): Promise<UserAccount | null> {
+  async createAccount(account: Account): Promise<Account | null> {
     return new Promise((resolve, reject) => {
       airtableBase(TABLE_NAME).create(
         [
@@ -65,10 +66,10 @@ class AccountService {
             reject(err)
             return
           }
-          
+
           if (records && records.length > 0) {
             const createdRecord = records[0]
-            const createdAccount: UserAccount = {
+            const createdAccount: Account = {
               id: createdRecord.id,
               name: createdRecord.get('name') as string,
               email: createdRecord.get('email') as string,
