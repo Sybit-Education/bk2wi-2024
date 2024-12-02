@@ -1,37 +1,54 @@
 import { defineStore } from 'pinia'
-import { ref, type Ref } from 'vue'
-import type { Account } from '@/models/Account'
-import { AccountService } from '@/services/account.service'
+import type Account from '@/models/Account'
+import { accountService } from '@/services/account.service'
+import { useLoadingStore } from './loading'
 
-export const useAccountStore = defineStore('account', () => {
-  const accounts: Ref<Account[]> = ref([])
-  const accountService = new AccountService()
+interface State {
+  accountList: Array<Account>
+}
 
-  // Create a new account
-  async function createAccount(account: Account): Promise<boolean> {
-    const success = await accountService.createAccount(account)
-    if (success) {
-      accounts.value.push(account)
+export const useAccountStore = defineStore('account', {
+  state: (): State => {
+    return {
+      accountList: [],
     }
-    return success
-  }
-
-  // Get all accounts
-  function getAccounts(): Account[] {
-    return accounts.value
-  }
-
-  // Find account by some identifier (e.g., email or ID)
-  function findAccount(identifier: string): Account | undefined {
-    return accounts.value.find(
-      account => account.email === identifier
-    )
-  }
-
-  return {
-    accounts,
-    createAccount,
-    getAccounts,
-    findAccount
+  },
+  getters: {
+    getAll: state => state.accountList,
+    getByEmail: state => (email: string) =>
+      state.accountList.find((account: Account) => account.email === email),
+  },
+  actions: {
+    async load() {
+      const loadingStore = useLoadingStore()
+      loadingStore.updateLoading(true)
+      
+      try {
+        // Assuming accountService has a method to fetch accounts
+        const accounts = await accountService.fetchAccounts()
+        this.accountList = accounts
+      } catch (error) {
+        console.error('Failed to load accounts', error)
+      } finally {
+        loadingStore.updateLoading(false)
+      }
+    },
+    async createAccount(account: Account) {
+      const loadingStore = useLoadingStore()
+      loadingStore.updateLoading(true)
+      
+      try {
+        const success = await accountService.createAccount(account)
+        if (success) {
+          this.accountList.push(account)
+        }
+        return success
+      } catch (error) {
+        console.error('Failed to create account', error)
+        return false
+      } finally {
+        loadingStore.updateLoading(false)
+      }
+    }
   }
 })
