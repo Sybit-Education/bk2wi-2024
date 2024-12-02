@@ -52,7 +52,7 @@ class AccountService {
   async createAccount(account: Account): Promise<Account | null> {
     return new Promise((resolve, reject) => {
       // Hash the password before storing
-      bcrypt.hash(account.password, SALT_ROUNDS, (err, hashedPassword) => {
+      bcrypt.hash(account.password, SALT_ROUNDS, (err: any, hashedPassword: any) => {
         if (err) {
           reject(err)
           return
@@ -154,7 +154,7 @@ class AccountService {
             }
 
             const storedPassword = records[0].get('Password') as string
-            
+
             // Compare provided password with stored hash
             bcrypt.compare(password, storedPassword, (err, result) => {
               if (err) {
