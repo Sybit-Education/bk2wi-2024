@@ -22,9 +22,9 @@ class AccountService {
             records.forEach((record) => {
               accounts.push({
                 id: record.id,
-                name: record.get('name') as string,
-                email: record.get('email') as string,
-                password: record.get('password') as string,
+                name: record.get('Name') as string,
+                email: record.get('E-Mmail') as string,
+                password: record.get('Password') as string,
                 // Add other fields as needed
               })
             })
@@ -53,9 +53,9 @@ class AccountService {
         [
           {
             fields: {
-              name: account.name,
-              email: account.email,
-              password: account.password,
+              'Name': account.name,
+              'E-Mail': account.email,
+              'Password': account.password,
               // Add other fields as needed
             }
           }
@@ -71,9 +71,9 @@ class AccountService {
             const createdRecord = records[0]
             const createdAccount: Account = {
               id: createdRecord.id,
-              name: createdRecord.get('name') as string,
-              email: createdRecord.get('email') as string,
-              password: createdRecord.get('password') as string,
+              name: createdRecord.get('Name') as string,
+              email: createdRecord.get('E-Mail') as string,
+              password: createdRecord.get('Password') as string,
               // Add other fields as needed
             }
             resolve(createdAccount)
@@ -97,15 +97,15 @@ class AccountService {
       airtableBase(TABLE_NAME)
         .select({
           view: ACTIVE_VIEW,
-          filterByFormula: `{email} = "${email}"`
+          filterByFormula: `{E-Mail} = "${email}"`
         })
         .eachPage(
           (records, fetchNextPage) => {
             records.forEach((record) => {
               accounts.push({
                 id: record.id,
-                email: record.get('email') as string,
-                name: record.get('name') as string,
+                email: record.get('E-Mail') as string,
+                name: record.get('Name') as string,
                 password: '', // Empty string since we're just checking email
               })
             })
