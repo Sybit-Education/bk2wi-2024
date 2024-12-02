@@ -1,6 +1,6 @@
 import type Account from '@/models/Account'
 import airtableBase from './airtable.service'
-import * as bcrypt from 'bcrypt'
+import bcrypt from 'bcrypt'
 
 const TABLE_NAME = 'Account'
 const ACTIVE_VIEW = 'Grid view'

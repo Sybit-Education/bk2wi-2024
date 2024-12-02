@@ -26,10 +26,14 @@ export default defineConfig({
   },
   define: {
     'process.env': {},
+    'global': {},
   },
   build: {
     commonjsOptions: {
       transformMixedEsModules: true,
     },
+    rollupOptions: {
+      external: ['bcrypt']
+    }
   },
 })
