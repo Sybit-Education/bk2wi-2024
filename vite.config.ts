@@ -21,4 +21,15 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url)),
     },
   },
+  optimizeDeps: {
+    exclude: ['bcrypt', '@mapbox/node-pre-gyp'],
+  },
+  define: {
+    'process.env': {},
+  },
+  build: {
+    commonjsOptions: {
+      transformMixedEsModules: true,
+    },
+  },
 })
