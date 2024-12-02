@@ -60,4 +60,14 @@ export class AccountService {
 }
 
 // Singleton instance
+  /**
+   * Fetch all accounts
+   * @returns Promise resolving to array of user accounts
+   */
+  async fetchAccounts(): Promise<UserAccount[]> {
+    // In a real-world scenario, this would fetch from an API
+    // For now, we'll return the existing accounts
+    return this.accounts.value
+  }
+
 export const accountService = new AccountService()
