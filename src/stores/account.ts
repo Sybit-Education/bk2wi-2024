@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import type Account from '@/models/Account'
-import { accountService } from '@/services/account.service'
+import accountService from '@/services/account.service'
 import { useLoadingStore } from './loading'
 
 interface State {

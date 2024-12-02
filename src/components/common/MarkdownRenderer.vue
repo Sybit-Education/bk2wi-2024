@@ -22,7 +22,7 @@ export default defineComponent({
         gfm: true,  // GitHub Flavored Markdown
         breaks: true  // Convert line breaks to <br>
       })
-      return DOMPurify.sanitize(htmlContent)
+      return DOMPurify.sanitize(htmlContent.toString())
     })
 
     return { renderedMarkdown }

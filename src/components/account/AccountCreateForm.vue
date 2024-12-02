@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue'
-import { accountService } from '@/services/account.service'
+import accountService from '@/services/account.service'
 
 const email = ref('')
 const password = ref('')
