@@ -1,73 +1,88 @@
 import type UserAccount from '@/models/Account'
-import type { Ref } from 'vue'
-import { ref } from 'vue'
+import airtableBase from './airtable.service'
 
+const TABLE_NAME = 'Account'
 
-export class AccountService {
-  private accounts: Ref<UserAccount[]> = ref([])
-
+class AccountService {
   /**
-   * Create a new user account
-   * @param account User account details
-   * @returns Promise resolving to boolean indicating success
+   * Get list of accounts from Airtable
+   * @returns Promise resolving to array of accounts
    */
-  async createAccount(account: UserAccount): Promise<boolean> {
-    // Basic validation
-    if (!this.validateAccount(account)) {
-      console.error('Invalid account details')
-      return false
-    }
+  async getList(): Promise<UserAccount[]> {
+    return new Promise((resolve, reject) => {
+      const accounts: UserAccount[] = []
 
-    try {
-      // In a real-world scenario, this would interact with a backend API
-      // For now, we'll simulate account creation
-      this.accounts.value.push(account)
-      console.log('Account created successfully', account.email)
-      return true
-    } catch (error) {
-      console.error('Account creation failed', error)
-      return false
-    }
+      airtableBase(TABLE_NAME)
+        .select({
+          view: 'Grid view'
+        })
+        .eachPage(
+          (records, fetchNextPage) => {
+            records.forEach((record) => {
+              accounts.push({
+                id: record.id,
+                name: record.get('name') as string,
+                email: record.get('email') as string,
+                password: record.get('password') as string,
+                // Add other fields as needed
+              })
+            })
+            fetchNextPage()
+          },
+          (err) => {
+            if (err) {
+              console.error(err)
+              reject(err)
+            } else {
+              resolve(accounts)
+            }
+          }
+        )
+    })
   }
 
   /**
-   * Validate account details
-   * @param account User account details
-   * @returns Boolean indicating if account details are valid
+   * Create a new account in Airtable
+   * @param account Account details to create
+   * @returns Promise resolving to created account
    */
-  private validateAccount(account: UserAccount): boolean {
-    // Basic email validation
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-
-    return !!(
-      account.email &&
-      emailRegex.test(account.email) &&
-      account.password &&
-      account.password.length >= 8 &&
-      account.name &&
-      account.name.trim().length > 0
-    )
-  }
-
-  /**
-   * Check if an email is already registered
-   * @param email Email to check
-   * @returns Boolean indicating if email is already in use
-   */
-  isEmailRegistered(email: string): boolean {
-    return this.accounts.value.some(account => account.email === email)
+  async createAccount(account: UserAccount): Promise<UserAccount | null> {
+    return new Promise((resolve, reject) => {
+      airtableBase(TABLE_NAME).create(
+        [
+          {
+            fields: {
+              name: account.name,
+              email: account.email,
+              password: account.password,
+              // Add other fields as needed
+            }
+          }
+        ],
+        (err, records) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+          
+          if (records && records.length > 0) {
+            const createdRecord = records[0]
+            const createdAccount: UserAccount = {
+              id: createdRecord.id,
+              name: createdRecord.get('name') as string,
+              email: createdRecord.get('email') as string,
+              password: createdRecord.get('password') as string,
+              // Add other fields as needed
+            }
+            resolve(createdAccount)
+          } else {
+            resolve(null)
+          }
+        }
+      )
+    })
   }
 }
 
-// Singleton instance
-  /**
-   * Fetch all accounts
-   * @returns Promise resolving to array of user accounts
-   */
-  async fetchAccounts(): Promise<UserAccount[]> {
-    // In a real-world scenario, this would fetch from an API
-    // For now, we'll return the existing accounts
-    return this.accounts.value
-  }
-
-export const accountService = new AccountService()
+export default new AccountService()
