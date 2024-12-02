@@ -84,6 +84,43 @@ class AccountService {
       )
     })
   }
+
+  /**
+   * Check if an email is already registered
+   * @param email Email to check
+   * @returns Promise resolving to boolean indicating email registration status
+   */
+  async isEmailRegistered(email: string): Promise<boolean> {
+    return new Promise((resolve, reject) => {
+      const accounts: Account[] = []
+
+      airtableBase(TABLE_NAME)
+        .select({
+          view: ACTIVE_VIEW,
+          filterByFormula: `{email} = "${email}"`
+        })
+        .eachPage(
+          (records, fetchNextPage) => {
+            records.forEach((record) => {
+              accounts.push({
+                id: record.id,
+                email: record.get('email') as string,
+                // Add minimal required fields
+              })
+            })
+            fetchNextPage()
+          },
+          (err) => {
+            if (err) {
+              console.error(err)
+              reject(err)
+            } else {
+              resolve(accounts.length > 0)
+            }
+          }
+        )
+    })
+  }
 }
 
 export default new AccountService()

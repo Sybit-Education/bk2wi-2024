@@ -16,7 +16,7 @@ const handleSubmit = async (event: Event) => {
   successMessage.value = ''
 
   // Check if email is already registered
-  if (accountService.isEmailRegistered(email.value)) {
+  if (await accountService.isEmailRegistered(email.value)) {
     errorMessage.value = 'Diese E-Mail ist bereits registriert.'
     return
   }
