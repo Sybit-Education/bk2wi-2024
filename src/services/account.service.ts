@@ -1,6 +1,6 @@
 import type Account from '@/models/Account'
 import airtableBase from './airtable.service'
-import bcrypt from 'bcrypt'
+import * as bcrypt from 'bcrypt'
 
 const TABLE_NAME = 'Account'
 const ACTIVE_VIEW = 'Grid view'
@@ -52,7 +52,7 @@ class AccountService {
   async createAccount(account: Account): Promise<Account | null> {
     return new Promise((resolve, reject) => {
       // Hash the password before storing
-      bcrypt.hash(account.password, SALT_ROUNDS, (err: any, hashedPassword: any) => {
+      bcrypt.hash(account.password, SALT_ROUNDS, (err: Error | null, hashedPassword: string) => {
         if (err) {
           reject(err)
           return
@@ -156,7 +156,7 @@ class AccountService {
             const storedPassword = records[0].get('Password') as string
 
             // Compare provided password with stored hash
-            bcrypt.compare(password, storedPassword, (err, result) => {
+            bcrypt.compare(password, storedPassword, (err: Error | null, result: boolean) => {
               if (err) {
                 reject(err)
               } else {
