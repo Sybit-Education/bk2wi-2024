@@ -49,6 +49,14 @@ export const useAccountStore = defineStore('account', {
       } finally {
         loadingStore.updateLoading(false)
       }
+    },
+    async isEmailRegistered(email: string) {
+      try {
+        return await accountService.isEmailRegistered(email)
+      } catch (error) {
+        console.error('Failed to check email registration', error)
+        return false
+      }
     }
   }
 })
