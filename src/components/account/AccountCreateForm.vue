@@ -8,6 +8,8 @@ const name = ref('')
 const errorMessage = ref('')
 const successMessage = ref('')
 
+const emit = defineEmits(['submit-account'])
+
 const handleSubmit = async (event: Event) => {
   event.preventDefault()
   
@@ -15,28 +17,12 @@ const handleSubmit = async (event: Event) => {
   errorMessage.value = ''
   successMessage.value = ''
 
-  // Check if email is already registered
-  if (await accountService.isEmailRegistered(email.value)) {
-    errorMessage.value = 'Diese E-Mail ist bereits registriert.'
-    return
-  }
-
-  // Attempt to create account
-  const success = await accountService.createAccount({
+  // Emit the account creation event to the parent component
+  emit('submit-account', {
     email: email.value,
     password: password.value,
     name: name.value
   })
-
-  if (success) {
-    successMessage.value = 'Account erfolgreich erstellt!'
-    // Reset form
-    email.value = ''
-    password.value = ''
-    name.value = ''
-  } else {
-    errorMessage.value = 'Fehler bei der Kontoerstellung. Bitte überprüfen Sie Ihre Eingaben.'
-  }
 }
 </script>
 
