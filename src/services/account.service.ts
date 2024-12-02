@@ -1,11 +1,7 @@
+import type UserAccount from '@/models/Account'
 import type { Ref } from 'vue'
 import { ref } from 'vue'
 
-export interface UserAccount {
-  email: string
-  password: string
-  name: string
-}
 
 export class AccountService {
   private accounts: Ref<UserAccount[]> = ref([])
@@ -42,13 +38,13 @@ export class AccountService {
   private validateAccount(account: UserAccount): boolean {
     // Basic email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
-    
+
     return !!(
-      account.email && 
-      emailRegex.test(account.email) && 
-      account.password && 
-      account.password.length >= 8 && 
-      account.name && 
+      account.email &&
+      emailRegex.test(account.email) &&
+      account.password &&
+      account.password.length >= 8 &&
+      account.name &&
       account.name.trim().length > 0
     )
   }
