@@ -105,7 +105,8 @@ class AccountService {
               accounts.push({
                 id: record.id,
                 email: record.get('email') as string,
-                // Add minimal required fields
+                name: record.get('name') as string,
+                password: '', // Empty string since we're just checking email
               })
             })
             fetchNextPage()
