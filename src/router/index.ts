@@ -26,6 +26,12 @@ const router = createRouter({
       component: () => import('../views/AccountCreateView.vue')
     },
     {
+      path: '/account/profile',
+      name: 'account-profile',
+      component: () => import('../views/AccountProfileView.vue'),
+      meta: { requiresAuth: true }
+    },
+    {
       path: '/impressum',
       name: 'impressum',
       component: () => import('../views/ImpressumView.vue')

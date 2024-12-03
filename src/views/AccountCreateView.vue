@@ -28,9 +28,8 @@ const handleAccountCreation = async (account: Account) => {
     const success = await accountStore.createAccount(account)
     
     if (success) {
-      // Optionally set the newly created account as the current user
-      // This depends on how you want to handle user sessions
-      router.push('/') // Redirect to home or dashboard
+      // Redirect to profile page to complete account setup
+      router.push('/account/profile')
     } else {
       errorMessage.value = 'Fehler bei der Kontoerstellung. Bitte versuchen Sie es erneut.'
     }

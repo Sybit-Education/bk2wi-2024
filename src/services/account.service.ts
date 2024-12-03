@@ -26,7 +26,10 @@ class AccountService {
                 name: record.get('Name') as string,
                 email: record.get('E-Mail') as string,
                 password: record.get('Password') as string,
-                // Add other fields as needed
+                about: record.get('About') as string,
+                gender: record.get('Gender') as Account['gender'],
+                birthday: record.get('Birthday') ? new Date(record.get('Birthday') as string) : undefined,
+                profileImageUrl: record.get('ProfileImageUrl') as string,
               })
             })
             fetchNextPage()
@@ -60,7 +63,10 @@ class AccountService {
               'Name': account.name,
               'E-Mail': account.email,
               'Password': hashedPassword,  // Store hashed password
-              // Add other fields as needed
+              'About': account.about || '',
+              'Gender': account.gender || '',
+              'Birthday': account.birthday ? account.birthday.toISOString().split('T')[0] : '',
+              'ProfileImageUrl': account.profileImageUrl || '',
             }
           }
         ],
@@ -78,7 +84,10 @@ class AccountService {
               name: createdRecord.get('Name') as string,
               email: createdRecord.get('E-Mail') as string,
               password: '', // Do not return the hashed password
-              // Add other fields as needed
+              about: createdRecord.get('About') as string,
+              gender: createdRecord.get('Gender') as Account['gender'],
+              birthday: createdRecord.get('Birthday') ? new Date(createdRecord.get('Birthday') as string) : undefined,
+              profileImageUrl: createdRecord.get('ProfileImageUrl') as string,
             }
             resolve(createdAccount)
           } else {
@@ -86,6 +95,80 @@ class AccountService {
           }
         }
       )
+    })
+  }
+
+  /**
+   * Update an existing account in Airtable
+   * @param account Account details to update
+   * @returns Promise resolving to updated account
+   */
+  async updateAccount(account: Account): Promise<Account | null> {
+    return new Promise((resolve, reject) => {
+      if (!account.id) {
+        reject(new Error('Account ID is required for update'))
+        return
+      }
+
+      airtableBase(TABLE_NAME).update(
+        [
+          {
+            id: account.id,
+            fields: {
+              'Name': account.name,
+              'About': account.about || '',
+              'Gender': account.gender || '',
+              'Birthday': account.birthday ? account.birthday.toISOString().split('T')[0] : '',
+              'ProfileImageUrl': account.profileImageUrl || '',
+            }
+          }
+        ],
+        (err, records) => {
+          if (err) {
+            console.error(err)
+            reject(err)
+            return
+          }
+
+          if (records && records.length > 0) {
+            const updatedRecord = records[0]
+            const updatedAccount: Account = {
+              id: updatedRecord.id,
+              name: updatedRecord.get('Name') as string,
+              email: account.email, // Preserve original email
+              password: account.password, // Preserve original password
+              about: updatedRecord.get('About') as string,
+              gender: updatedRecord.get('Gender') as Account['gender'],
+              birthday: updatedRecord.get('Birthday') ? new Date(updatedRecord.get('Birthday') as string) : undefined,
+              profileImageUrl: updatedRecord.get('ProfileImageUrl') as string,
+            }
+            resolve(updatedAccount)
+          } else {
+            resolve(null)
+          }
+        }
+      )
+    })
+  }
+
+  /**
+   * Upload profile image
+   * @param file Image file to upload
+   * @returns Promise resolving to image URL
+   */
+  async uploadProfileImage(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      // In a real app, this would use a cloud storage service like Firebase or AWS S3
+      // For this example, we'll simulate an upload
+      const reader = new FileReader()
+      reader.onload = (event) => {
+        const imageUrl = event.target?.result as string
+        resolve(imageUrl)
+      }
+      reader.onerror = (error) => {
+        reject(error)
+      }
+      reader.readAsDataURL(file)
     })
   }
 

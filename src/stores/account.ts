@@ -5,12 +5,14 @@ import { useLoadingStore } from './loading'
 
 interface State {
   accountList: Array<Account>
+  currentAccount: Account | null
 }
 
 export const useAccountStore = defineStore('account', {
   state: (): State => {
     return {
       accountList: [],
+      currentAccount: null
     }
   },
   getters: {
@@ -24,7 +26,6 @@ export const useAccountStore = defineStore('account', {
       loadingStore.updateLoading(true)
 
       try {
-        // Assuming accountService has a method to fetch accounts
         const accounts = await accountService.getList()
         this.accountList = accounts
       } catch (error) {
@@ -38,11 +39,13 @@ export const useAccountStore = defineStore('account', {
       loadingStore.updateLoading(true)
 
       try {
-        const success = await accountService.createAccount(account)
-        if (success) {
-          this.accountList.push(account)
+        const createdAccount = await accountService.createAccount(account)
+        if (createdAccount) {
+          this.accountList.push(createdAccount)
+          this.currentAccount = createdAccount
+          return true
         }
-        return success
+        return false
       } catch (error) {
         console.error('Failed to create account', error)
         return false
@@ -56,6 +59,40 @@ export const useAccountStore = defineStore('account', {
       } catch (error) {
         console.error('Failed to check email registration', error)
         return false
+      }
+    },
+    async getCurrentAccount(): Promise<Account | null> {
+      // In a real app, this would check authentication state
+      // For now, we'll return the first account or null
+      return this.currentAccount
+    },
+    async updateAccount(account: Account): Promise<boolean> {
+      try {
+        const updatedAccount = await accountService.updateAccount(account)
+        if (updatedAccount) {
+          // Update the current account and the list
+          this.currentAccount = updatedAccount
+          const index = this.accountList.findIndex(a => a.id === account.id)
+          if (index !== -1) {
+            this.accountList[index] = updatedAccount
+          }
+          return true
+        }
+        return false
+      } catch (error) {
+        console.error('Failed to update account', error)
+        return false
+      }
+    },
+    async uploadProfileImage(file: File): Promise<string> {
+      try {
+        // This would typically call a service method to upload the image
+        // and return the URL
+        const imageUrl = await accountService.uploadProfileImage(file)
+        return imageUrl
+      } catch (error) {
+        console.error('Failed to upload profile image', error)
+        throw error
       }
     }
   }
