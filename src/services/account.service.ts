@@ -1,6 +1,7 @@
 import type Account from '@/models/Account'
 import airtableBase from './airtable.service'
 import { sha256 } from 'js-sha256'
+import type { RecordData } from 'airtable'
 
 const TABLE_NAME = 'Account'
 const ACTIVE_VIEW = 'Grid view'
@@ -64,9 +65,9 @@ class AccountService {
               'E-Mail': account.email,
               'Password': hashedPassword,  // Store hashed password
               'About': account.about || '',
-              'Gender': account.gender || '',
+              'Gender': account.gender || undefined,
               'Birthday': account.birthday && account.birthday instanceof Date ? account.birthday.toISOString().split('T')[0] : null,
-              'Profile Image': account.profileImageUrl || '',
+              'Bilder': undefined, // No profile images yet
             }
           }
         ],
@@ -87,7 +88,7 @@ class AccountService {
               about: createdRecord.get('About') as string,
               gender: createdRecord.get('Gender') as Account['gender'],
               birthday: createdRecord.get('Birthday') ? new Date(createdRecord.get('Birthday') as string) : undefined,
-              profileImageUrl: createdRecord.get('ProfileImageUrl') as string,
+              profileImages: createdRecord.get('Bilder') as string[],
             }
             resolve(createdAccount)
           } else {
@@ -119,7 +120,7 @@ class AccountService {
               'About': account.about || '',
               'Gender': account.gender || '',
               'Birthday': account.birthday ? account.birthday.toISOString().split('T')[0] : '',
-              'Profile Image': account.profileImageUrl || '',
+              'Bilder': account.profileImages || '',
             }
           }
         ],

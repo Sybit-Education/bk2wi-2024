@@ -4,7 +4,7 @@ export default interface Account {
   password: string
   name: string
   about?: string
-  gender?: 'male' | 'female' | 'other' | 'prefer_not_to_say'
-  birthday?: Date
-  profileImageUrl?: string
+  gender?: 'Männlich' | 'Weiblich' | 'Divers' | 'Keine Angabe'
+  birthday?: Date | undefined
+  profileImages?: string[]
 }
