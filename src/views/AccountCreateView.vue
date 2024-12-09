@@ -11,7 +11,7 @@ const router = useRouter()
 const errorMessage = ref('')
 const isLoading = ref(false)
 
-const handleAccountCreation = async (account: Account) => {
+const handleAccountCreation = async (account: Partial<Account>) => {
   isLoading.value = true
   errorMessage.value = ''
 

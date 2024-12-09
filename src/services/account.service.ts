@@ -65,7 +65,7 @@ class AccountService {
               'Password': hashedPassword,  // Store hashed password
               'About': account.about || '',
               'Gender': account.gender || '',
-              'Birthday': account.birthday ? account.birthday.toISOString().split('T')[0] : '',
+              'Birthday': account.birthday && account.birthday instanceof Date ? account.birthday.toISOString().split('T')[0] : null,
               'ProfileImageUrl': account.profileImageUrl || '',
             }
           }

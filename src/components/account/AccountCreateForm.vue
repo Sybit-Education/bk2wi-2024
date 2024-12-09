@@ -5,6 +5,7 @@ import accountService from '@/services/account.service'
 const email = ref('')
 const password = ref('')
 const name = ref('')
+const birthday = ref<Date | null>(null)
 const errorMessage = ref('')
 const successMessage = ref('')
 
@@ -21,7 +22,8 @@ const handleSubmit = async (event: Event) => {
   emit('submit-account', {
     email: email.value,
     password: password.value,
-    name: name.value
+    name: name.value,
+    birthday: birthday.value
   })
 }
 </script>
