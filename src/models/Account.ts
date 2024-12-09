@@ -6,5 +6,5 @@ export default interface Account {
   about?: string
   gender?: 'Männlich' | 'Weiblich' | 'Divers' | 'Keine Angabe'
   birthday?: Date | undefined
-  profileImages?: string[]
+  profileImages?: string[] | undefined
 }

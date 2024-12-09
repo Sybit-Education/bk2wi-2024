@@ -16,7 +16,7 @@
           alt="Profilbild"
         >
         <ProfileImageUpload 
-          :current-image-url="currentAccount.profileImageUrl"
+          :profile-images="currentAccount.profileImages || []"
           @image-uploaded="handleProfileImageUpload"
         />
       </div>

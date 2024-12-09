@@ -26,20 +26,27 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, computed } from 'vue'
+import { ref, defineProps, defineEmits, computed, watch } from 'vue'
 
 const props = defineProps({
-  currentImageUrl: {
-    type: String,
-    default: ''
+  profileImages: {
+    type: Array as () => string[],
+    default: () => []
   }
 })
 
 const emit = defineEmits(['image-uploaded'])
 
 const fileInput = ref<HTMLInputElement | null>(null)
-const previewImageUrl = ref<string | null>(props.currentImageUrl)
+const previewImageUrl = ref<string | null>(null)
 const defaultImageUrl = '/default-avatar.png'
+
+// Watch for changes in profileImages and set the first image
+watch(() => props.profileImages, (newImages) => {
+  previewImageUrl.value = newImages && newImages.length > 0 
+    ? newImages[0] 
+    : null
+}, { immediate: true })
 
 const triggerFileInput = () => {
   fileInput.value?.click()
