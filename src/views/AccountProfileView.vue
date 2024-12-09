@@ -11,7 +11,9 @@
     <div v-else-if="currentAccount" class="row">
       <div class="col-md-4">
         <img 
-          :src="currentAccount.profileImageUrl || '/default-avatar.png'" 
+          :src="currentAccount.profileImages && currentAccount.profileImages.length > 0 
+            ? currentAccount.profileImages[0] 
+            : '/default-avatar.png'" 
           class="img-fluid rounded-circle mb-3" 
           alt="Profilbild"
         >

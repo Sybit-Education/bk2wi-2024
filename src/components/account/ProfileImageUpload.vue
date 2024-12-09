@@ -45,7 +45,7 @@ const defaultImageUrl = '/default-avatar.png'
 watch(() => props.profileImages, (newImages) => {
   previewImageUrl.value = newImages && newImages.length > 0 
     ? newImages[0] 
-    : null
+    : defaultImageUrl
 }, { immediate: true })
 
 const triggerFileInput = () => {
