@@ -15,12 +15,10 @@
           class="img-fluid rounded-circle mb-3" 
           alt="Profilbild"
         >
-        <input 
-          type="file" 
-          @change="handleProfileImageUpload" 
-          class="form-control"
-          accept="image/*"
-        >
+        <ProfileImageUpload 
+          :current-image-url="currentAccount.profileImageUrl"
+          @image-uploaded="handleProfileImageUpload"
+        />
       </div>
       
       <div class="col-md-8">
@@ -87,6 +85,7 @@ import { ref, computed, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { useAccountStore } from '@/stores/account'
 import type Account from '@/models/Account'
+import ProfileImageUpload from '@/components/account/ProfileImageUpload.vue'
 
 const accountStore = useAccountStore()
 const router = useRouter()
@@ -125,17 +124,14 @@ onMounted(async () => {
   }
 })
 
-const handleProfileImageUpload = async (event: Event) => {
-  const input = event.target as HTMLInputElement
-  if (input.files && input.files[0]) {
-    try {
-      const imageUrl = await accountStore.uploadProfileImage(input.files[0])
-      if (editableAccount.value) {
-        editableAccount.value.profileImageUrl = imageUrl
-      }
-    } catch (error) {
-      console.error('Image upload failed', error)
+const handleProfileImageUpload = async (file: File) => {
+  try {
+    const imageUrl = await accountStore.uploadProfileImage(file)
+    if (editableAccount.value) {
+      editableAccount.value.profileImageUrl = imageUrl
     }
+  } catch (error) {
+    console.error('Image upload failed', error)
   }
 }
 

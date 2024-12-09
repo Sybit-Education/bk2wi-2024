@@ -159,17 +159,28 @@ class AccountService {
    */
   async uploadProfileImage(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
-      // In a real app, this would use a cloud storage service like Firebase or AWS S3
-      // For this example, we'll simulate an upload
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        const imageUrl = event.target?.result as string
-        resolve(imageUrl)
-      }
-      reader.onerror = (error) => {
+      const formData = new FormData()
+      formData.append('file', file)
+
+      fetch('https://api.airtable.com/v0/uploads', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${import.meta.env.VITE_AIRTABLE_API_KEY}`,
+        },
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.url) {
+          resolve(data.url)
+        } else {
+          reject(new Error('Failed to upload image'))
+        }
+      })
+      .catch(error => {
+        console.error('Image upload error:', error)
         reject(error)
-      }
-      reader.readAsDataURL(file)
+      })
     })
   }
 
