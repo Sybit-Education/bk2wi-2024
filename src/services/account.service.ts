@@ -162,17 +162,24 @@ class AccountService {
       const formData = new FormData()
       formData.append('file', file)
 
-      fetch('https://api.airtable.com/v0/uploads', {
+      fetch(`https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/Account/attachments`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${import.meta.env.VITE_AIRTABLE_API_KEY}`,
+          'Content-Type': 'multipart/form-data',
         },
         body: formData
       })
       .then(response => response.json())
       .then(data => {
-        if (data.url) {
-          resolve(data.url)
+        if (data.id) {
+          // Airtable returns an attachment object with URLs
+          const imageUrl = data.url || (data.thumbnails?.large?.url)
+          if (imageUrl) {
+            resolve(imageUrl)
+          } else {
+            reject(new Error('No image URL found in upload response'))
+          }
         } else {
           reject(new Error('Failed to upload image'))
         }
