@@ -29,7 +29,7 @@ class AccountService {
                 about: record.get('About') as string,
                 gender: record.get('Gender') as Account['gender'],
                 birthday: record.get('Birthday') ? new Date(record.get('Birthday') as string) : undefined,
-                profileImageUrl: record.get('ProfileImageUrl') as string,
+                profileImageUrl: record.get('Profile Image') as string,
               })
             })
             fetchNextPage()
@@ -66,7 +66,7 @@ class AccountService {
               'About': account.about || '',
               'Gender': account.gender || '',
               'Birthday': account.birthday && account.birthday instanceof Date ? account.birthday.toISOString().split('T')[0] : null,
-              'ProfileImageUrl': account.profileImageUrl || '',
+              'Profile Image': account.profileImageUrl || '',
             }
           }
         ],
@@ -119,7 +119,7 @@ class AccountService {
               'About': account.about || '',
               'Gender': account.gender || '',
               'Birthday': account.birthday ? account.birthday.toISOString().split('T')[0] : '',
-              'ProfileImageUrl': account.profileImageUrl || '',
+              'Profile Image': account.profileImageUrl || '',
             }
           }
         ],
@@ -140,7 +140,7 @@ class AccountService {
               about: updatedRecord.get('About') as string,
               gender: updatedRecord.get('Gender') as Account['gender'],
               birthday: updatedRecord.get('Birthday') ? new Date(updatedRecord.get('Birthday') as string) : undefined,
-              profileImageUrl: updatedRecord.get('ProfileImageUrl') as string,
+              profileImageUrl: updatedRecord.get('Profile Image') as string,
             }
             resolve(updatedAccount)
           } else {
