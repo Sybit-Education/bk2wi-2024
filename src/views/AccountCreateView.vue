@@ -11,13 +11,13 @@ const router = useRouter()
 const errorMessage = ref('')
 const isLoading = ref(false)
 
-const handleAccountCreation = async (account: Partial<Account>) => {
+const handleAccountCreation = async (account: Account) => {
   isLoading.value = true
   errorMessage.value = ''
 
   try {
     // Check if email is already registered
-    const isRegistered = await accountStore.isEmailRegistered(account.email)
+    const isRegistered = account.email ? await accountStore.isEmailRegistered(account.email) : false
     if (isRegistered) {
       errorMessage.value = 'Diese E-Mail ist bereits registriert.'
       isLoading.value = false
@@ -26,7 +26,7 @@ const handleAccountCreation = async (account: Partial<Account>) => {
 
     // Attempt to create account
     const success = await accountStore.createAccount(account)
-    
+
     if (success) {
       // Redirect to profile page to complete account setup
       router.push('/account/profile')
@@ -45,18 +45,18 @@ const handleAccountCreation = async (account: Partial<Account>) => {
 <template>
   <div class="account-create container mt-4">
     <h1>Account anlegen</h1>
-    
+
     <div v-if="isLoading" class="text-center">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Wird geladen...</span>
       </div>
     </div>
-    
+
     <div v-else>
-      <AccountCreateForm 
+      <AccountCreateForm
         @submit-account="handleAccountCreation"
       />
-      
+
       <div v-if="errorMessage" class="alert alert-danger mt-3">
         {{ errorMessage }}
       </div>

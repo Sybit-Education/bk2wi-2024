@@ -1,7 +1,7 @@
 import type Account from '@/models/Account'
 import airtableBase from './airtable.service'
 import { sha256 } from 'js-sha256'
-import type { RecordData } from 'airtable'
+import type { Records, FieldSet, Attachment } from 'airtable'
 
 const TABLE_NAME = 'Account'
 const ACTIVE_VIEW = 'Grid view'
@@ -30,7 +30,7 @@ class AccountService {
                 about: record.get('About') as string,
                 gender: record.get('Gender') as Account['gender'],
                 birthday: record.get('Birthday') ? new Date(record.get('Birthday') as string) : undefined,
-                profileImageUrl: record.get('Profile Image') as string,
+                profileImages: record.get('Profile Image') as string[],
               })
             })
             fetchNextPage()
@@ -71,7 +71,7 @@ class AccountService {
             }
           }
         ],
-        (err, records) => {
+        (err: unknown, records: Records<FieldSet>) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -88,7 +88,7 @@ class AccountService {
               about: createdRecord.get('About') as string,
               gender: createdRecord.get('Gender') as Account['gender'],
               birthday: createdRecord.get('Birthday') ? new Date(createdRecord.get('Birthday') as string) : undefined,
-              profileImages: createdRecord.get('Bilder') as string[],
+              profileImageUrl: createdRecord.get('Bilder') as string[],
             }
             resolve(createdAccount)
           } else {
@@ -120,11 +120,11 @@ class AccountService {
               'About': account.about || '',
               'Gender': account.gender || '',
               'Birthday': account.birthday ? account.birthday.toISOString().split('T')[0] : '',
-              'Bilder': account.profileImages || '',
+              //'Bilder': account.profileImages || '',
             }
           }
         ],
-        (err, records) => {
+        (err: unknown, records: Records<FieldSet>) => {
           if (err) {
             console.error(err)
             reject(err)
@@ -141,7 +141,7 @@ class AccountService {
               about: updatedRecord.get('About') as string,
               gender: updatedRecord.get('Gender') as Account['gender'],
               birthday: updatedRecord.get('Birthday') ? new Date(updatedRecord.get('Birthday') as string) : undefined,
-              profileImageUrl: updatedRecord.get('Profile Image') as string,
+              profileImageUrl: this.getFirstUrl(updatedRecord),
             }
             resolve(updatedAccount)
           } else {
@@ -150,6 +150,10 @@ class AccountService {
         }
       )
     })
+  }
+
+  private getFirstUrl(updatedRecord: Records<FieldSet>): string | undefined {
+    return Array.isArray(updatedRecord.get('Profile Image')) ? (updatedRecord.get('Profile Image') as Attachment[])[0].url : undefined as string | undefined
   }
 
   /**
@@ -162,10 +166,10 @@ class AccountService {
       const formData = new FormData()
       formData.append('file', file)
 
-      fetch(`https://api.airtable.com/v0/${import.meta.env.VITE_AIRTABLE_BASE_ID}/Account/attachments`, {
+      fetch(`https://api.airtable.com/v0/${import.meta.env.VITE_APP_AIRTABLE_BASE_ID}/Account/attachments`, {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${import.meta.env.VITE_AIRTABLE_API_KEY}`,
+          'Authorization': `Bearer ${import.meta.env.VITE_APP_AIRTABLE_API_KEY}`,
           'Content-Type': 'multipart/form-data',
         },
         body: formData

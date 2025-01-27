@@ -1,22 +1,22 @@
 <template>
   <div class="profile-image-upload">
-    <input 
-      type="file" 
+    <input
+      type="file"
       ref="fileInput"
-      @change="handleFileUpload" 
-      class="form-control" 
+      @change="handleFileUpload"
+      class="form-control"
       accept="image/jpeg,image/png,image/gif"
       style="display: none;"
     >
     <div class="image-preview-container">
-      <img 
-        :src="previewImageUrl || defaultImageUrl" 
-        @click="triggerFileInput" 
-        class="img-fluid rounded-circle profile-image-preview" 
+      <img
+        :src="previewImageUrl || defaultImageUrl"
+        @click="triggerFileInput"
+        class="img-fluid rounded-circle profile-image-preview"
         alt="Profile Image"
       >
-      <button 
-        @click="triggerFileInput" 
+      <button
+        @click="triggerFileInput"
         class="btn btn-secondary btn-sm upload-button"
       >
         {{ previewImageUrl ? 'Change Image' : 'Upload Image' }}
@@ -26,7 +26,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineProps, defineEmits, computed, watch } from 'vue'
+import { ref, defineEmits, watch } from 'vue'
 
 const props = defineProps({
   profileImages: {
@@ -43,8 +43,8 @@ const defaultImageUrl = '/default-avatar.png'
 
 // Watch for changes in profileImages and set the first image
 watch(() => props.profileImages, (newImages) => {
-  previewImageUrl.value = newImages && newImages.length > 0 
-    ? newImages[0] 
+  previewImageUrl.value = newImages && newImages.length > 0
+    ? newImages[0]
     : defaultImageUrl
 }, { immediate: true })
 
@@ -56,7 +56,7 @@ const handleFileUpload = async (event: Event) => {
   const input = event.target as HTMLInputElement
   if (input.files && input.files[0]) {
     const file = input.files[0]
-    
+
     // Validate file type and size
     const validTypes = ['image/jpeg', 'image/png', 'image/gif']
     const maxSize = 5 * 1024 * 1024 // 5MB
