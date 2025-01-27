@@ -1,56 +1,54 @@
 <template>
   <div class="account-profile container mt-4">
     <h1>Mein Profil</h1>
-    
+
     <div v-if="isLoading" class="text-center">
       <div class="spinner-border" role="status">
         <span class="visually-hidden">Wird geladen...</span>
       </div>
     </div>
-    
+
     <div v-else-if="currentAccount" class="row">
       <div class="col-md-4">
-        <img 
-          :src="currentAccount.profileImages && currentAccount.profileImages.length > 0 
-            ? currentAccount.profileImages[0] 
-            : '/default-avatar.png'" 
-          class="img-fluid rounded-circle mb-3" 
+        <img
+          :src="currentAccount.profileImageUrl ? currentAccount.profileImageUrl : '/default-avatar.png'"
+          class="img-fluid rounded-circle mb-3"
           alt="Profilbild"
         >
-        <ProfileImageUpload 
-          :profile-images="currentAccount.profileImages || []"
+        <ProfileImageUpload
+          :profile-image="currentAccount.profileImageUrl"
           @image-uploaded="handleProfileImageUpload"
         />
       </div>
-      
+
       <div class="col-md-8">
         <form @submit.prevent="updateProfile">
           <div class="mb-3">
             <label for="name" class="form-label">Name</label>
-            <input 
-              type="text" 
-              class="form-control" 
-              id="name" 
-              v-model="editableAccount.name" 
+            <input
+              type="text"
+              class="form-control"
+              id="name"
+              v-model="editableAccount.name"
               required
             >
           </div>
-          
+
           <div class="mb-3">
             <label for="about" class="form-label">Über mich</label>
-            <textarea 
-              class="form-control" 
-              id="about" 
-              v-model="editableAccount.about" 
+            <textarea
+              class="form-control"
+              id="about"
+              v-model="editableAccount.about"
               rows="4"
             ></textarea>
           </div>
-          
+
           <div class="mb-3">
             <label for="gender" class="form-label">Geschlecht</label>
-            <select 
-              class="form-select" 
-              id="gender" 
+            <select
+              class="form-select"
+              id="gender"
               v-model="editableAccount.gender"
             >
               <option value="">Nicht angegeben</option>
@@ -60,22 +58,22 @@
               <option value="prefer_not_to_say">Möchte ich nicht angeben</option>
             </select>
           </div>
-          
+
           <div class="mb-3">
             <label for="birthday" class="form-label">Geburtstag</label>
-            <input 
-              type="date" 
-              class="form-control" 
-              id="birthday" 
+            <input
+              type="date"
+              class="form-control"
+              id="birthday"
               v-model="formattedBirthday"
             >
           </div>
-          
+
           <button type="submit" class="btn btn-primary">Profil aktualisieren</button>
         </form>
       </div>
     </div>
-    
+
     <div v-else class="alert alert-warning">
       Bitte melden Sie sich an, um Ihr Profil zu sehen.
     </div>
