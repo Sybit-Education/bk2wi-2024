@@ -10,14 +10,18 @@
   
        vertreten durch das Berufsschulzentrum Radolfzell<br>
 (Gewerbliche, Kaufmännische und Hauswirtschaftliche Schulen Radolfzell)<br>
+<br>
 
 Alemannenstraße 15<br>
 78315 Radolfzell<br>
+<br>
 Tel: 07732 989 113 / 07732 989 123 / 07732 989 133<br>
 Fax: 07732 989 220<br>
-E-Mail: info@bsz-radolfzell.de<br>
+<br>
+E-Mail: sportsyinfo@bsz-radolfzell.de<br>
 
 <h3>Vertretungsberechtigte: </h3> 
+
 Leon, Lewin, Timo (Projektleitung)<br>
 E-Mail: Sportsy@verwaltung.bsz-radolfzell.de 
 <br><br>
