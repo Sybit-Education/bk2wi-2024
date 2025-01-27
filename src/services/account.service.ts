@@ -2,7 +2,6 @@ import type Account from '@/models/Account'
 import airtableBase from './airtable.service'
 import { sha256 } from 'js-sha256'
 import type { Records, FieldSet, Attachment } from 'airtable'
-import type { FieldSet } from 'airtable/lib/field_set'
 
 const TABLE_NAME = 'Account'
 const ACTIVE_VIEW = 'Grid view'
